@@ -1,0 +1,36 @@
+*/15 * * * * /root/update_watch.linux > /var/log/amz_update_warning.log 2>&1 # 预警高优更新阻塞问题
+#0 */4 * * * /usr/local/bin/python2.7 /data/dsb/auto_place_order/interval_task.py fetch_muji_logistics
+*/10 * * * * /usr/local/bin/python2.7 /data/dsb/auto_place_order/interval_task.py watch_buyer_info >> /var/log/watch_buyer_info.log 2>&1 # 查看需要身份证信息的订单是否用户已补上
+#55 23 * * * /usr/local/bin/python2.7 /data/dsb/auto_place_order/run.py --pause
+#8 0 * * * /usr/local/bin/python2.7 /data/dsb/auto_place_order/logistics.py -m production --country us -w us.asos.com --not=true >> /var/log/logistics.log 2>&1
+#55 0 * * * /usr/local/bin/python2.7 /data/dsb/auto_place_order/run.py --resume
+
+#25 1 * * * /usr/local/bin/python2.7 /data/dsb/auto_place_order/run.py --pause
+#30 1 * * * /usr/local/bin/python2.7 /data/dsb/auto_place_order/logistics.py -m production --country us -w us.asos.com,shop.nordstrom.com --not=true >> /var/log/logistics.log 2>&1
+#30 2 * * * /usr/local/bin/python2.7 /data/dsb/auto_place_order/run.py --resume
+
+
+#50 6 * * * /usr/local/bin/python2.7 /data/dsb/auto_place_order/run.py --pause
+#0 7 * * * /usr/local/bin/python2.7 /data/dsb/auto_place_order/logistics.py -m production --country jp >> /var/log/logistics.log 2>&1
+#50 7 * * * /usr/local/bin/python2.7 /data/dsb/auto_place_order/run.py --resume
+
+#55 11 * * * /usr/local/bin/python2.7 /data/dsb/auto_place_order/run.py --pause
+#0 12 * * * /usr/local/bin/python2.7 /data/dsb/auto_place_order/logistics.py -m production --country jp >> /var/log/logistics.log 2>&1
+#30 12 * * * /usr/local/bin/python2.7 /data/dsb/auto_place_order/run.py --resume
+
+#55 14 * * * /usr/local/bin/python2.7 /data/dsb/auto_place_order/run.py --pause
+#0 15 * * * /usr/local/bin/python2.7 /data/dsb/auto_place_order/logistics.py -m production --country jp >> /var/log/logistics.log 2>&1
+#30 15 * * *  /usr/local/bin/python2.7 /data/dsb/auto_place_order/run.py --resume
+
+*/40 * * * * /usr/local/bin/python2.7 /data/dsb/auto_place_order/interval_task.py add_goods_uv >> /var/log/add_goods_uv.log 2>&1 # 访问当日下单的日亚商品, 进行随机访问, 添加商品uv
+*/5 * * * * /usr/sbin/ntpdate time.windows.com && hwclock -w
+40 9 * * * /usr/local/bin/python2.7 /data/dsb/auto_place_order/interval_task.py watch_card_repayment -m production > /var/log/watch_card_repayment.log 2>&1 # 统计当日出账的信用卡
+0 14 * * * /usr/local/bin/python2.7 /data/dsb/auto_place_order/interval_task.py watch_card_repayment -m production > /var/log/watch_card_repayment.log 2>&1
+#*/40 * * * * /usr/local/bin/node --harmony /data/dsb/amz_update_goods/watch.js >> /var/log/amz_update_warning.log 2>&1
+*/2 * * * * /root/netchecker.linux > /tmp/netchecker.log 2>&1 # 检测网络状况
+
+#0 2 * * * /usr/local/bin/python2.7 /data/dsb/auto_place_order/logistics.py -m production --country us -w us.asos.com,shop.nordstrom.com --not=true >> /var/log/logistics.log 2>&1
+#0 4 * * * /usr/local/bin/python2.7 /data/dsb/auto_place_order/logistics.py -m production --country jp -w us.asos.com,shop.nordstrom.com --not=true >> /var/log/logistics.log 2>&1
+*/5 * * * * /root/logsyncer > /var/log/logsyncer.log 2>&1 # 上传日志
+
+#30 22 * * *  /usr/local/bin/python2.7 /data/dsb/auto_place_order/script.py > /var/log/auto_script.log 2>&1

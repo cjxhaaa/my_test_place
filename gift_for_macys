@@ -1,0 +1,3 @@
+#!/bin/bash
+cd ~/cjxh/my_test_palce
+python test_TK.py
